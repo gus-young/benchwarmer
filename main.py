@@ -1,6 +1,5 @@
-import numpy as np
 from analysis.loader import load_stats
-from analysis.cleaner import filter_min_games, fix_zero_fg_pct, clean
+from analysis.cleaner import clean
 
 names, stats = load_stats()
 names, stats = clean(names, stats)

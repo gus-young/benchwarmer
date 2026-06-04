@@ -25,6 +25,6 @@ def fix_zero_fg_pct(stats):
     return (stats)
 
 def clean(names, stats):
-    filter_min_games(names, stats)
-    fix_zero_fg_pct(stats)
-    return(names, stats)
+    updated_names, updated_stats = filter_min_games(names, stats)
+    updated_stats = fix_zero_fg_pct(updated_stats)
+    return(updated_names, updated_stats)
