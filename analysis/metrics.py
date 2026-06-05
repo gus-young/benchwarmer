@@ -28,3 +28,15 @@ def per_36(stats):
 
     result = (par / minutes[:, np.newaxis]) * 36
     return result
+
+def min_max_normalizer(arr):
+    max_value = np.max(arr)
+    min_value = np.min(arr)
+
+    if max_value == min_value: 
+        arr[:] = 0   
+        return arr
+    
+    for x in arr: 
+        result = (x- min_value) / (max_value - min_value)
+        
