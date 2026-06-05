@@ -18,3 +18,13 @@ def assist_to_turnover_ratio(stats):
     at_ratio[test_array] = max_value
 
     return (at_ratio)
+
+def simple_PER(stats):
+    return stats[:, 2] + stats[:, 3] + stats[:, 4] + stats[:,5] - stats[:, 6]
+
+def per_36(stats):
+    par = stats[:, 2:5]
+    minutes = stats[:,1]
+
+    result = (par / minutes[:, np.newaxis]) * 36
+    return result
