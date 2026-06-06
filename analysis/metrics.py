@@ -39,3 +39,18 @@ def min_max_normalizer(arr):
     else: 
         return (arr - min_value) / (max_value - min_value)
 
+def assign_tiers(metric_array):
+    pct_list = [75, 50, 25]
+    pct_value_list = []
+
+    for pct in pct_list: 
+        pct_value_list.append(np.percentile(metric_array, pct))
+    
+    mask_elite = metric_array > pct_value_list[0]
+    mask_starter = (metric_array > pct_value_list[1]) & (metric_array <= pct_value_list[0])
+    mask_rotation = (metric_array > pct_value_list[2]) & (metric_array <= pct_value_list[1])
+    mask_bench = metric_array < pct_value_list[2]
+
+    tier_list = np.where(mask_elite, "Elite", np.where(mask_starter, "Starter", np.where(mask_rotation, "Rotation", np.where(mask_bench, "Bench", "Unk"))))
+
+    return tier_list
