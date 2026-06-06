@@ -1,3 +1,4 @@
+import numpy as np
 from analysis.loader import load_stats
 from analysis.cleaner import clean
 from analysis.metrics import assist_to_turnover_ratio, simple_PER, per_36, assign_tiers
@@ -25,3 +26,21 @@ find_outliers(names, simple_PER(stats), label="Outliers")
 print("-- Player Tier Assignments --")
 for index, (player_name, tier) in enumerate(zip(names, assign_tiers(simple_PER(stats)))):
     print(f"{index+1}. {player_name}: {tier}")
+
+#stack metrics into single 2D array 
+per_36_result = per_36(stats)
+output_arr = np.column_stack([
+    simple_PER(stats), 
+    assist_to_turnover_ratio(stats),
+    per_36_result[:,0],
+    per_36_result[:,1],
+    per_36_result[:,2],
+    ])
+
+np.save('output/player_metrics.npy',output_arr)
+loaded_data = np.load('output/player_metrics.npy')
+
+if output_arr.shape == loaded_data.shape:
+    print("-- Data Shape maintained after re-load --")
+else: 
+    print("-- Error in data save or inport --")
