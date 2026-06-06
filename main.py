@@ -41,7 +41,6 @@ output_arr = np.column_stack([
     ast_per_36,
     reb_per_36
     ])
-print(output_arr)
 
 np.save('output/player_metrics.npy',output_arr)
 loaded_data = np.load('output/player_metrics.npy')
@@ -53,7 +52,6 @@ normalized_arr = np.column_stack([
     min_max_normalizer(ast_per_36),
     min_max_normalizer(reb_per_36)
     ])
-print(normalized_arr)
 
 np.save('output/normalized_metrics.npy',output_arr)
 loaded_normalized_data = np.load('output/normalized_metrics.npy')
