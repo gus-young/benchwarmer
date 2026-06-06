@@ -9,7 +9,7 @@ def top_n(names, metric_array, n=5, label="Metric"):
     print(f"--- Top {n} by {label} ---")
 
     for index, (name, metric) in enumerate(zip(sorted_names, sorted_metric)):
-        print(f"{index+1}. {name}        {metric}")
+        print(f"{index+1}. {name}        {metric:.2f}")
 
 def find_outliers(names, metric_array, label="Metric", threshold=2.0):
     arr_mean = np.mean(metric_array)
@@ -24,4 +24,4 @@ def find_outliers(names, metric_array, label="Metric", threshold=2.0):
     print(f"--- {label} ---")
     
     for index, (name, metric) in enumerate(zip(outlier_names, outlier_stats)):
-        print(f"{index+1}. {name}        {metric}")
+        print(f"{index+1}. {name}        {metric:.2f}")
