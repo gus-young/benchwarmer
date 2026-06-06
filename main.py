@@ -1,7 +1,7 @@
 import numpy as np
 from analysis.loader import load_stats
 from analysis.cleaner import clean
-from analysis.metrics import assist_to_turnover_ratio, simple_PER, per_36, assign_tiers
+from analysis.metrics import assist_to_turnover_ratio, simple_PER, per_36, assign_tiers, min_max_normalizer
 from analysis.reporter import top_n, find_outliers
 
 names, stats = load_stats()
@@ -28,19 +28,37 @@ for index, (player_name, tier) in enumerate(zip(names, assign_tiers(simple_PER(s
     print(f"{index+1}. {player_name}: {tier}")
 
 #stack metrics into single 2D array 
-per_36_result = per_36(stats)
+PER_results = simple_PER(stats)
+atr_results = assist_to_turnover_ratio(stats)
+pts_per_36 = per_36(stats)[:,0]
+ast_per_36 = per_36(stats)[:,1]
+reb_per_36 = per_36(stats)[:,2]
+
 output_arr = np.column_stack([
-    simple_PER(stats), 
-    assist_to_turnover_ratio(stats),
-    per_36_result[:,0],
-    per_36_result[:,1],
-    per_36_result[:,2],
+    PER_results, 
+    atr_results,
+    pts_per_36,
+    ast_per_36,
+    reb_per_36
     ])
+print(output_arr)
 
 np.save('output/player_metrics.npy',output_arr)
 loaded_data = np.load('output/player_metrics.npy')
 
-if output_arr.shape == loaded_data.shape:
+normalized_arr = np.column_stack([
+    min_max_normalizer(PER_results),
+    min_max_normalizer(atr_results),
+    min_max_normalizer(pts_per_36),
+    min_max_normalizer(ast_per_36),
+    min_max_normalizer(reb_per_36)
+    ])
+print(normalized_arr)
+
+np.save('output/normalized_metrics.npy',output_arr)
+loaded_normalized_data = np.load('output/normalized_metrics.npy')
+
+if output_arr.shape == loaded_data.shape and normalized_arr.shape == loaded_normalized_data.shape:
     print("-- Data Shape maintained after re-load --")
 else: 
     print("-- Error in data save or inport --")
