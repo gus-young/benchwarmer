@@ -62,3 +62,26 @@ if output_arr.shape == loaded_data.shape and normalized_arr.shape == loaded_norm
     print("-- Data Shape maintained after re-load --")
 else: 
     print("-- Error in data save or inport --")
+
+# ----- Correlation Matrix -----
+#initialize matrix 
+corr_matrix = np.zeros((8,8))
+
+for i in range(8):
+    for j in range(8):
+        x = stats[:,i]
+        y = stats[:,j]
+        
+        r = sum((x - np.mean(x)) * (y - np.mean(y))) / (len(names) * np.std(x) * np.std(y))
+        corr_matrix[i,j] = r
+
+print(" -- Correlation Matrix (Manual Calculation) --")
+print(corr_matrix)
+
+print(" -- Correlation Matrix (numPY Calculation) --")
+print(np.corrcoef(stats.T))
+
+if np.allclose(corr_matrix, np.corrcoef(stats.T)):
+    print("Correlation matrices match")
+else: 
+    print("The matrices do not match, check your calculations")
