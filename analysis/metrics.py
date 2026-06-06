@@ -34,9 +34,8 @@ def min_max_normalizer(arr):
     min_value = np.min(arr)
 
     if max_value == min_value: 
-        arr[:] = 0   
-        return arr
+        return np.zeros(arr.shape)
     
-    for x in arr: 
-        result = (x- min_value) / (max_value - min_value)
-        
+    else: 
+        return (arr - min_value) / (max_value - min_value)
+
